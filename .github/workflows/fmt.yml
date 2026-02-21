@@ -1,4 +1,4 @@
-name: Clippy
+name: Format Check
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main, develop ]
 
 jobs:
-  clippy:
+  fmt:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
@@ -15,12 +15,12 @@ jobs:
     - name: Install Rust
       uses: dtolnay/rust-toolchain@stable
       with:
-        components: clippy
+        components: rustfmt
     
-    - name: Backend Clippy
+    - name: Backend Format
       working-directory: ./backend
-      run: cargo clippy --all-targets --all-features -- -D warnings
+      run: cargo fmt --all -- --check
     
-    - name: Contracts Clippy
+    - name: Contracts Format
       working-directory: ./contracts
-      run: cargo clippy --all-targets --all-features -- -D warnings
+      run: cargo fmt --all -- --check
